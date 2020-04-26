@@ -32,6 +32,7 @@ class Application(tk.Frame):
         self.create_widgets()
 
         self.prev_node = None
+        self.prev_node_color = None
 
         self.nodes = []
         self.start_nodes = []
@@ -116,25 +117,29 @@ class Application(tk.Frame):
                     print(f'Connecting nodes {self.prev_node} ({prev_node_pos}) and {node} ({curr_node_pos})')
                     self.canvas.create_line(
                         prev_node_pos[0]+(OVAL_RADIUS/2), prev_node_pos[1]+(OVAL_RADIUS/2),
-                        curr_node_pos[0]+(OVAL_RADIUS/2), curr_node_pos[1]+(OVAL_RADIUS/2)
+                        curr_node_pos[0]+(OVAL_RADIUS/2), curr_node_pos[1]+(OVAL_RADIUS/2),
+                        arrow=tk.LAST
                         )
                     self.prev_node.add_child(node)
                 else:
                     print('Please select another node!')
+                self.canvas.itemconfig(self.prev_node.id, fill=self.prev_node_color)
                 self.prev_node = None
             else:
                 self.prev_node = node
+                self.prev_node_color = self.canvas.itemcget(node_id, 'fill')
+                self.canvas.itemconfig(node.id, fill='purple')
                 print(f'Selecting node {node} at position {x}, {y}')
         else:
+            if self.prev_node is not None: self.canvas.itemconfig(self.prev_node.id, fill=self.prev_node_color)
             self.prev_node = None
 
     def calculate_n_paths(self):
         count = 0
         self.node_stack = self.start_nodes.copy()
 
-        print('Start:', self.start_nodes)
-        print('End:', self.end_nodes)
-        print('Stack:', self.node_stack)
+        print('Start nodes:', self.start_nodes)
+        print('End nodes:', self.end_nodes)
 
         while len(self.node_stack) > 0:
             node = self.node_stack.pop()
