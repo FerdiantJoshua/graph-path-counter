@@ -9,7 +9,7 @@ This app is still buggy and has unfriendly UX but yet it works :)
 
 Just clone this repository, and run `python main.py`. This reposity doesn't depend on any packages beside default python 3.7.5
 
-## Instrucitons
+## Instructions
 
 1. Adding nodes
     * Left click to add nodes
